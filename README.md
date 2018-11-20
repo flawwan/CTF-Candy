@@ -148,7 +148,7 @@
 
         gwkki -> hello (shift one key to the right)
 
-* [Bit shift character]
+* Bit shifted characters
 
         ord("A") = 65
         65 << 1 = 130 (encode)
@@ -164,8 +164,20 @@
 
 * https://quipqiup.com/
 
-    CLUES
-    BASE64 TOOD
+    Sometimes you can get lucky with Quip and recover parts or even the complete flag.
+    Tips:
+    - Use CLUES
+    
+# Forensics
+
+* strings
+    Running strings on a binary can often reaval the flag. Use in conjunction with grep
+    TIPS:
+        - Base64 the start of the flag, for example:
+        ```
+        $ strings binary | grep `echo -n "CTF_CHALL{" | base64`
+        ```
+    
 
 
 Sources of inspiration:
