@@ -44,7 +44,7 @@
         Ook. Ook. Ook. Ook. Ook! Ook? Ook? Ook. Ook.
 
     Could also be written without the Ook
-        . ? . . . . . . .
+        . ? . . . . . ! .
 
 ## Steganography
 
@@ -66,10 +66,6 @@
 
 * photoshop
 
-* Old phone keypad
-
-    ![alt text](images/phone.jpg "Keypad old phone")
-
 * zbarimg (QR Code)
 
         Usage: zbarimg image.png
@@ -80,7 +76,7 @@
 
 * SONIC Visualizer
 
-
+* SSTV
 
 
 ### What to look out for
@@ -90,7 +86,7 @@
     * Positive and negative numbers could be binary (0, 1).
     * Binary code could be morse code
     * Morse code
-        * Also check for nonstandard delimiter
+        - Also check for nonstandard delimiter
 
 
 
@@ -144,9 +140,32 @@
 
 # Cryptography
 
+* Old phone keypad
+
+    ![alt text](images/phone.jpg "Keypad old phone")
+
 * [Keyboard shift decoder](https://www.dcode.fr/keyboard-shift-cipher)
 
         gwkki -> hello (shift one key to the right)
+
+* [Bit shift character]
+
+        ord("A") = 65
+        65 << 1 = 130 (encode)
+        130 >> 1 = 65 (decode)
+
+* Reverse text
+
+        $ echo "dlrow olleh" | rev
+        hello world
+* [caesar](https://github.com/flawwan/254caesar)
+
+    echo -n "String to shift" | ./caesar
+
+* https://quipqiup.com/
+
+    CLUES
+    BASE64 TOOD
 
 
 Sources of inspiration:
