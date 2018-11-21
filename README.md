@@ -11,7 +11,10 @@
 ### Examples of common esolangs
 
 * [Brainfuck](https://www.dcode.fr/brainfuck-language)
+
+        ```
         ++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>>.<---.>+++++++++++.-----------.+.<<++.>-.>+++++++++++++.-----------------.++++++++.+++++.--------.+++++++++++++++.------------------.++++++++.
+        ```
 
 * [Malbogne](http://www.malbolge.doleczek.pl/)
 
@@ -35,7 +38,7 @@
         😀 🔤Hey!🔤❗️
         🍉
 
-* [Befunge](http://www.quirkster.com/iano/js/befunge.html)
+* [Befunge-93](http://www.quirkster.com/iano/js/befunge.html)
 
         2>:3g" "-!v\  g30          <  |!`"O":+1_:.:03p>03g+:"O"`|  @               ^  p3\" ":<
 * [Ook]()
@@ -122,17 +125,13 @@
         Usage:  pngsplit chall.png
 
 #### The Animated Portable Network Graphics (APNG) file format
-* [APNG Assembler 2.91](http://apngasm.sourceforge.net)
-
-        Usage   : apngasm output.png frame001.png [options]
-                  apngasm output.png frame*.png   [options]
 
 * [APNG Disassembler 2.9](http://apngdis.sourceforge.net)
 
-                  Usage: apngdis anim.png [name]
-
+        Usage: apngdis anim.png [name]
 
 * [TweakPNG](http://entropymine.com/jason/tweakpng/)
+
     ![alt text](images/tweakpng.png "Piet")
 
         Usage: wine tweakpng.exe
@@ -158,28 +157,42 @@
 
         $ echo "dlrow olleh" | rev
         hello world
-* [caesar](https://github.com/flawwan/254caesar)
+* [254caesar](https://github.com/flawwan/254caesar)
 
-    echo -n "String to shift" | ./caesar
+        echo -n "String to shift" | ./caesar
 
-* https://quipqiup.com/
+* [QuipQuip](https://quipqiup.com/)
 
-    Sometimes you can get lucky with Quip and recover parts or even the complete flag.
-    Tips:
-    - Use CLUES
-    
+        Sometimes you can get lucky with Quip and recover parts or even the complete flag.
+        Tips:
+        - Use CLUES
+        - Try all modes
+
 # Forensics
 
 * strings
+
     Running strings on a binary can often reaval the flag. Use in conjunction with grep
-    TIPS:
-        - Base64 the start of the flag, for example:
-        ```
-        $ strings binary | grep `echo -n "CTF_CHALL{" | base64`
-        ```
-    
+        $ strings binary | grep "CTF_CHALL"
+        $ strings binary | grep `echo -n "CTF_CHALL" | base64`
+
+
+# Magic bytes
+
+| Type        |  Recognize      | Signature  |
+| ------------- |:-------------:| ----------:|
+| EXE           |   MZ        |  4D 5A      |
+| GIF           |   GIF87a        |  47 49 46 38 37 61|
+| GIF           |   GIF89a        |  47 49 46 38 39 61      |
+| JPG           |   ÿØÿà..JFIF..  |  FF D8 FF E0 00 10 4A 46 49 46 00 01       |
+| PNG           |   .PNG....        | 89 50 4E 47 0D 0A 1A 0A      |
+| PDF           |   %PDF-        |  25 50 44 46 2d     |
+| 7z            |   7z¼¯'        |  37 7A BC AF 27 1C      |
+
 
 
 Sources of inspiration:
 * https://github.com/JohnHammond/ctf-katana/blob/master/README.md
 * https://github.com/USCGA/tools
+* https://ctftime.org/writeup/12243
+* https://en.wikipedia.org/wiki/List_of_file_signatures
