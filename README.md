@@ -86,6 +86,10 @@ Use your favorite `fuzzer`. Here are some good ones:
 * dirbuster
 
 
+## Useful tools for web
+
+* ZAP
+* Burpsuite
 
 
 
@@ -153,6 +157,12 @@ Use your favorite `fuzzer`. Here are some good ones:
 
 * openstego
 
+* stegoVeritas
+
+* stegdetect
+
+* stegbreak
+
 * zsteg
 
 * jsteg
@@ -160,6 +170,12 @@ Use your favorite `fuzzer`. Here are some good ones:
 * jstego
 
 * gimp
+
+* Outguess
+
+* steganabara
+
+* stegspy
 
 * photoshop
         Make sure you zoom and check every pixel. Sometimes it's hidden in plain sight.
@@ -173,6 +189,16 @@ Use your favorite `fuzzer`. Here are some good ones:
 * SONIC Visualizer
 
 * [SSTV](http://users.belgacom.net/hamradio/rxsstv.htm)
+
+* mp3stego
+
+* spectrology
+
+* cloackedpixel
+
+* LSBSteg
+
+* f5
 
 ### Other techniques
 
@@ -190,6 +216,15 @@ Use your favorite `fuzzer`. Here are some good ones:
         - Also check for nonstandard delimiter
 
 
+## JPEG forensics
+
+* `identify chall.jpg`
+
+* `jhead chall.jpg`
+
+* `jpeginfo chall.jpg`
+
+* `rdjpgcom -verbose chall.jpg`
 
 ## PNG Forensics
 
@@ -274,6 +309,8 @@ Use your favorite `fuzzer`. Here are some good ones:
         $ strings binary | grep "CTF_CHALL"
         $ strings binary | grep `echo -n "CTF_CHALL" | base64`
 
+* exiftool
+
 
 # Magic bytes
 
@@ -287,10 +324,23 @@ Use your favorite `fuzzer`. Here are some good ones:
 | PDF           |   %PDF-        |  25 50 44 46 2d     |
 | 7z            |   7z¼¯'        |  37 7A BC AF 27 1C      |
 
+## Other (Unsorted, todo)
+
+* Samba tool [pdbedit](https://www.samba.org/samba/docs/current/man-html/pdbedit.8.html)
+
+* [impacket](https://github.com/SecureAuthCorp/impacket)
+
+* [any.run](https://app.any.run/)
+
+* [ViperMonkey](https://github.com/decalage2/ViperMonkey)
+
+* [oletools](https://github.com/decalage2/oletools)
+
 
 
 Sources of inspiration:
 * https://github.com/JohnHammond/ctf-katana/blob/master/README.md
 * https://github.com/USCGA/tools
 * https://ctftime.org/writeup/12243
+* https://github.com/DominicBreuker/stego-toolkit#tools
 * https://en.wikipedia.org/wiki/List_of_file_signatures
