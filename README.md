@@ -73,13 +73,13 @@ A good clue where to start is to look out for:
 
 * LFI / RFI (PHP Wrappers) => I recommend this page from [rawsec](https://rawsec.ml/en/local-file-inclusion-remote-code-execution-vulnerability/)
 
-## Well.. I've found nothing
+##### Well.. I've found nothing
 
 If you have not found something by now. You may want to run a fuzzer.
 
 1. Grab yourself a good [fuzz.txt](https://github.com/Bo0oM/fuzz.txt)
 
-Use your favourite fuzzer. Here are some good ones:
+Use your favorite `fuzzer`. Here are some good ones:
 
 * dirb
 
