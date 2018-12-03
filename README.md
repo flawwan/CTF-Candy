@@ -1,15 +1,107 @@
 # CTF Candy
 
-(Under construction)
+## Web
+Web challenges can often by tricky. Sometimes you have no clue what to do.
+A good recommendation is try to find stuff that is out of the ordinary.
+
+A good clue where to start is to look out for:
+* GET parameters.
+    `?page=index`
+
+    Here you have to manually try to enter some stuff to understand more about the application.
+    * `?id='` => SQL error, okay probably a sql injection. ID are often sql injections
+    * `?page[]=` => Send an array, this might crash or reveal debug information about the error. Sometimes you might even get the source code of the application.
+    * `?id=-1` => Try negative numbers
+    * `?page=../../../../etc/passwd` => LFI
+    * `?page=../html/index` => If you the above line does not work. Try this as you could be dealing with a limited local file inclusion.
+        ```php
+        <?php
+            include $_GET['page'] . '.php';
+        ```
+    * `?page=http://remote-file.js` => RFI
+
+    * `?page=%252e%252e%252fetc%252fpasswd` => Double encoding + LFI
+
+    * `$ curl -d "AAAA1234" -X POST http://URL/?magic=php://input` => If you see AAAA1234 in the data => LFI using PHP Wrappers.
+* Hidden form input
+    ```html
+    <input type="hidden" name ="debug" />
+    ```
+    I would try the same stuff as the GET parameter previously described. Also:
+    * Try enter `5*5`. If it returns `25` =>  `command injection`.
+
+
+* Commented out links
+    ```html
+    <!-- <a href="Secret/admin.html"></a> -->
+    ```
+* Keywords in comments
+    ```
+    <!-- debug -->
+    ```
+* [File upload](https://www.owasp.org/index.php/Unrestricted_File_Upload)
+    * Try a lot of different extensions'
+    * Double extension `.png.php`
+    * `command injecton` in filename
+    * Add PHP code to gif
+    ```bash
+    gifsicle < mygif.gif -- comment "<?=phpversion();?>" > output.php.gif
+    ```
+
+* Money transfer => These are often a `timing attack`
+
+* Clues in the name/title of the challenges
+
+* Clues in the description of the challenge
+
+* /robots.txt
+
+* Append `?debug=1` or `?is_debug=1` to the url
+
+        This will sometimes give you the source code of the page.
+        You should test the code locally. Or some parts of the code that you do not understand. Your goal is to understand how to circumvent each layer of the challenge.
+
+* Interesting headers sent by the application
+
+* Cookies
+
+* PHP Version?
+
+* Apache/nginx version?
+
+* Nullbyte
+
+* LFI / RFI (PHP Wrappers) => I recommend this page from [rawsec](https://rawsec.ml/en/local-file-inclusion-remote-code-execution-vulnerability/)
+
+## Well.. I've found nothing
+
+If you have not found something by now. You may want to run a fuzzer.
+
+1. Grab yourself a good [fuzz.txt](https://github.com/Bo0oM/fuzz.txt)
+
+Use your favourite fuzzer. Here are some good ones:
+
+* dirb
+
+* dirbuster
+
+
+
+
 
 ## Esoteric Languages (ESO Lang)
 * https://esolangs.org/wiki/language_list
 
-        Esoteric programming languages wiki!
+        Esoteric programming languages wiki! Great resource
 
 * https://tio.run/
 
         "Tio is a online interpreters for an evergrowing list of practical and recreational programming languages."
+
+* [https://esolangs.org/wiki/Hello_world](https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages)
+
+        This is a good resource to find examples of a lot of esoteric languages.
+
 ### Examples of common esolangs
 
 * [Brainfuck](https://www.dcode.fr/brainfuck-language)
@@ -70,9 +162,8 @@
 * gimp
 
 * photoshop
-
+        Make sure you zoom and check every pixel. Sometimes it's hidden in plain sight.
 * zbarimg (QR Code)
-
         Usage: zbarimg image.png
 
 ### Audio Steganography
@@ -81,8 +172,13 @@
 
 * SONIC Visualizer
 
-* SSTV
+* [SSTV](http://users.belgacom.net/hamradio/rxsstv.htm)
 
+### Other techniques
+
+        * Reverse image search for original images
+        * XOR original image
+        * compare original.png challenge.png
 
 ### What to look out for
 
@@ -170,7 +266,7 @@
         - Use CLUES
         - Try all modes
 
-# Forensics
+## Forensics
 
 * strings
 
