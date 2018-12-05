@@ -223,9 +223,9 @@ Use your favorite `fuzzer`. Here are some good ones:
 
 ### Other techniques
 
-        * Reverse image search for original images
-        * XOR original image
-        * compare original.png challenge.png
+* Reverse image search for original images
+* XOR original image
+* compare original.png challenge.png diff.png
 
 ### What to look out for
 
