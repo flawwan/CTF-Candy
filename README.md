@@ -182,6 +182,12 @@ Use your favorite `fuzzer`. Here are some good ones:
 * zbarimg (QR Code)
         Usage: zbarimg image.png
 
+* cloackedpixel
+
+* LSBSteg
+
+* f5
+
 ### Audio Steganography
 
 * [DTFM Tones](http://dialabc.com/sound/detect/index.html)
@@ -193,12 +199,6 @@ Use your favorite `fuzzer`. Here are some good ones:
 * mp3stego
 
 * spectrology
-
-* cloackedpixel
-
-* LSBSteg
-
-* f5
 
 ### Other techniques
 
@@ -336,6 +336,7 @@ Use your favorite `fuzzer`. Here are some good ones:
 
 * [oletools](https://github.com/decalage2/oletools)
 
+* /dev/random - Might sometimes return nullbyte(\00)
 
 
 Sources of inspiration:
