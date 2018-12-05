@@ -11,7 +11,7 @@ A good recommendation is try to find stuff that is out of the ordinary.
 * Python with requests lib
 
 
-##### Injection in GET parameter
+#### Injection in GET parameter
 Here you have to manually try to enter some stuff to understand more about the application.
 * `?id='`
         Test for SQL injection
@@ -37,7 +37,7 @@ Here you have to manually try to enter some stuff to understand more about the a
 * `$ curl -d "<?=system('ls .')" -X POST http://URL/?magic=php://input`
         Send a arbitrary payload through a post request
 
-### Form data
+#### Form data
 
 * Hidden form input
     ```html
@@ -49,7 +49,7 @@ Here you have to manually try to enter some stuff to understand more about the a
 
         eval($_GET['exec'])`
 
-##### Page source
+#### Page source
 The source of the page often includes hints where to look. Use developer tools!
 
 * Commented out links
@@ -61,7 +61,7 @@ The source of the page often includes hints where to look. Use developer tools!
     <!-- debug -->
     ```
 
-##### Attack functionality
+#### Attack functionality
 * [File upload](https://www.owasp.org/index.php/Unrestricted_File_Upload)
     * Try a lot of different extensions'
     * Double extension `.png.php`
@@ -74,7 +74,7 @@ The source of the page often includes hints where to look. Use developer tools!
 * Money transfer
         These are often a `timing attack`
 
-##### Other
+#### Other
 
 * Clues in the name/title of the challenges
 
@@ -101,7 +101,7 @@ The source of the page often includes hints where to look. Use developer tools!
 * LFI / RFI (PHP Wrappers)
         I recommend this page from [rawsec](https://rawsec.ml/en/local-file-inclusion-remote-code-execution-vulnerability/)
 
-##### Well.. I've found nothing
+#### Well.. I've found nothing
 
 If you have not found something by now. You may want to run a fuzzer.
 
