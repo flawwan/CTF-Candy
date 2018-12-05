@@ -43,15 +43,14 @@ Here you have to manually try to enter some stuff to understand more about the a
     ```html
     <input type="hidden" name ="debug" />
     ```
-    I would try the same stuff as the GET parameter previously described. Also:
-    * `?exec=5*5`
-            If it returns `25` we have  `command injection`.
-            Backend is probably running :
+* `?exec=5*5`
+        If it returns `25` we have  `command injection`.
+        Backend is probably running :
 
-            eval($_GET['exec'])`
+        eval($_GET['exec'])`
 
-### Page source
-The source of the page often includes hints where to look.
+##### Page source
+The source of the page often includes hints where to look. Use developer tools!
 
 * Commented out links
     ```html
