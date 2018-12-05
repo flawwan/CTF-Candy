@@ -19,6 +19,8 @@ Here you have to manually try to enter some stuff to understand more about the a
         Send an array, this might crash or reveal debug information about the error. Sometimes you might even get the source code of the application.
 * `?id=-1`
         Try negative numbers
+* `?page=....//....//....//....//etc/passwd`
+        This might sometimes work if the application removes ../ from the url.
 * `?page=../../../../etc/passwd`
         Local file inclusion (LFI)
 * `?page=../html/index`
