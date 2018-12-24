@@ -76,14 +76,14 @@ Here you have to manually try to enter some stuff to understand more about the a
 
 #### Python sandbox escape
 
-(This section is uncomplete)
+(This section is incomplete)
 
 * `locals()`
 * `dir()`
-* `input()`
+* `input()` - In python 2, this is basically eval()
+
 * `__import__("os").system("ls .")`
 
-        This one is special in python 2. It will eval all user input.
 
 * Single quote and double quotes blocked? Use only numbers and parentheses.
         ```python
