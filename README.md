@@ -32,11 +32,14 @@ Here you have to manually try to enter some stuff to understand more about the a
 * `?id=99999999999999999999999999` or `?id=-999999999999999999999999`
         Try both positive and negative numbers
 
+* `?page=....//....//....//....//etc/passwd`
+        This might sometimes work if the application removes ../ from the url.
+
 * `?page=../../../../etc/passwd`
         Local file inclusion (LFI)
 
 * `?page=../html/index`
-        If you the above line does not work. Try this as you could be dealing with a limited local file inclusion.
+        Test for limited local file inclusion.
     The code could look like this in php:
     ```php
     <?php
@@ -57,10 +60,10 @@ Here you have to manually try to enter some stuff to understand more about the a
 
 * `?exec=5*5`
 
-        If it returns *25* we have  `command injection`.
-        Backend is probably running :
+    If it returns *25* we have  `command injection`.
+    Backend is probably running: `eval($_GET['exec'])`
 
-        eval($_GET['exec'])
+
 
 #### Form data
 
@@ -98,10 +101,11 @@ The source of the page often includes hints where to look. Use developer tools!
     ```html
     <!-- <a href="Secret/admin.html"></a> -->
     ```
-* Keywords in comments
+* Keywords in comments - Try adding `?debug=1` or `?debug=true` to the url.
     ```
     <!-- debug -->
     ```
+
 
 #### File upload
 
